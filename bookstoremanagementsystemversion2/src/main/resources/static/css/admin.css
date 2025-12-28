@@ -1,0 +1,400 @@
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.dashboard-header h2 {
+    margin: 0 0 10px 0;
+    font-size: 2.5rem;
+}
+
+.dashboard-header p {
+    margin: 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.admin-section {
+    margin: 30px 0;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* ADMIN USERS SECTION - Red Theme */
+.admin-users-section {
+    border-left: 5px solid #e74c3c;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.admin-users-section .section-header h3 {
+    color: #c0392b;
+    font-weight: 700;
+}
+
+.admin-count {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+}
+
+.admin-card {
+    border-left: 4px solid #e74c3c;
+    background: linear-gradient(135deg, #fff5f5 0%, #fefefe 100%);
+}
+
+.admin-header {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+}
+
+.admin-avatar {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 1.5rem;
+}
+
+.admin-indicator {
+    background: rgba(255,255,255,0.3);
+    color: white;
+    font-weight: 700;
+}
+
+.admin-role {
+    background: #e74c3c;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.admin-edit {
+    background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+}
+
+.admin-delete {
+    background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+}
+
+/* CUSTOMER USERS SECTION - Green Theme */
+.customer-users-section {
+    border-left: 5px solid #27ae60;
+    background: linear-gradient(135deg, #f8fffe 0%, #ffffff 100%);
+}
+
+.customer-users-section .section-header h3 {
+    color: #1e8449;
+    font-weight: 700;
+}
+
+.customer-count {
+    background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
+    color: white;
+}
+
+.customer-card {
+    border-left: 4px solid #27ae60;
+    background: linear-gradient(135deg, #f8fffe 0%, #fefefe 100%);
+}
+
+.customer-header {
+    background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
+    color: white;
+}
+
+.customer-avatar {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 1.5rem;
+}
+
+.customer-indicator {
+    background: rgba(255,255,255,0.3);
+    color: white;
+    font-weight: 700;
+}
+
+.customer-role {
+    background: #27ae60;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.customer-edit {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.customer-delete {
+    background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+}
+
+/* BOOKS SECTION - Blue Theme */
+.books-management-section {
+    border-left: 5px solid #3498db;
+    background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+}
+
+.books-management-section .section-header h3 {
+    color: #2471a3;
+    font-weight: 700;
+}
+
+.books-count {
+    background: linear-gradient(135deg, #3498db 0%, #2471a3 100%);
+    color: white;
+}
+
+/* Common Styles */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f2f5;
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.section-count {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.users-grid, .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.user-card, .book-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.user-card:hover, .book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.user-header, .book-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.role-indicator {
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.user-info, .book-info {
+    padding: 20px;
+    background: white;
+}
+
+.username-title, .book-title {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.user-detail, .book-meta-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.user-actions, .book-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    flex: 1;
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3498db 0%, #2471a3 100%);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #1f5f99 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+/* Stock Status Colors */
+.stock-empty {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.stock-low {
+    color: #f39c12;
+    font-weight: bold;
+}
+
+.stock-good {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+/* No Data States */
+.no-data {
+    text-align: center;
+    padding: 50px;
+    border-radius: 12px;
+    border: 2px dashed #ddd;
+}
+
+.admin-no-data {
+    background: linear-gradient(135deg, #fff5f5 0%, #fefefe 100%);
+    border-color: #e74c3c;
+}
+
+.customer-no-data {
+    background: linear-gradient(135deg, #f8fffe 0%, #fefefe 100%);
+    border-color: #27ae60;
+}
+
+.books-no-data {
+    background: linear-gradient(135deg, #f8fbff 0%, #fefefe 100%);
+    border-color: #3498db;
+}
+
+.no-data-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+/* Add Book Form */
+.add-book-form {
+    background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #e8f4fd;
+}
+
+.add-book-form h4 {
+    margin: 0 0 20px 0;
+    color: #2471a3;
+    font-weight: 600;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    align-items: end;
+}
+
+.form-grid input, .form-grid select {
+    padding: 12px 15px;
+    border: 2px solid #e8f4fd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-grid input:focus, .form-grid select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Debug Info */
+.debug-info {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffffff 100%);
+    border: 1px solid #ffeaa7;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #856404;
+    border-left: 4px solid #f39c12;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-header h2 {
+        font-size: 2rem;
+    }
+    
+    .users-grid, .books-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .user-header, .book-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - Bookstore</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .order-details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #007bff;
+            transition: all 0.2s ease;
+        }
+        
+        .back-link:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        .order-summary {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .order-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .order-status {
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-processing {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-shipped {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-delivered {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+        
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Badge styles for status display */
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 0.375rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge.status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .badge.status-processing {
+            background-color: #cce7ff;
+            color: #0056b3;
+            border: 1px solid #99d6ff;
+        }
+        
+        .badge.status-shipped {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #a7d7aa;
+        }
+        
+        .badge.status-delivered {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #a3cfbb;
+        }
+        
+        .badge.status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f1aeb5;
+        }
+        
+        .order-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .info-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .info-value {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .order-items {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .items-header {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .item-card {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            transition: box-shadow 0.2s ease;
+        }
+        
+        .item-row {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            transition: box-shadow 0.2s ease;
+        }
+        
+        .item-card:hover,
+        .item-row:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .item-image {
+            margin-right: 20px;
+        }
+        
+        .placeholder-image {
+            width: 60px;
+            height: 80px;
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+        
+        .item-info {
+            flex: 1;
+        }
+        
+        .item-details {
+            flex: 1;
+            margin-right: 20px;
+        }
+        
+        .item-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .item-quantity {
+            margin-right: 20px;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .item-price {
+            text-align: right;
+            min-width: 120px;
+        }
+        
+        .item-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .item-details {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .item-total {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #007bff;
+            text-align: right;
+            min-width: 100px;
+        }
+        
+        .order-total {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: right;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .total-row.final {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #007bff;
+            padding-top: 15px;
+            border-top: 2px solid #dee2e6;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #f5c6cb;
+            text-align: center;
+        }
+        
+        .status-tracker {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .tracker-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .status-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .status-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            height: 3px;
+            background: #dee2e6;
+            z-index: 1;
+        }
+        
+        .status-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 3px solid #dee2e6;
+            background: white;
+            color: #6c757d;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .step-circle.pending {
+            border-color: #ffc107;
+            background: #ffc107;
+            color: white;
+        }
+        
+        .step-circle.active {
+            border-color: #007bff;
+            background: #007bff;
+            color: white;
+        }
+        
+        .step-circle.completed {
+            border-color: #28a745;
+            background: #28a745;
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 0.9em;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .step-label.pending {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .step-label.active {
+            color: #007bff;
+            font-weight: bold;
+        }
+        
+        .step-label.completed {
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body data-logged-in="[[${isLoggedIn}]]" data-username="[[${username}]]">
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <h1 class="nav-logo">📚 BookStore</h1>
+                <div class="nav-menu">
+                    <a th:href="@{/}" class="nav-link">Home</a>
+                    
+                    <!-- Show Login/Register when not logged in -->
+                    <div th:if="${!isLoggedIn}" class="auth-dropdown">
+                        <button class="nav-link dropdown-btn">Login/Register ▼</button>
+                        <div class="dropdown-content">
+                            <a th:href="@{/login}" class="dropdown-link">🔑 Login</a>
+                            <a th:href="@{/register}" class="dropdown-link">📝 Register</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Show user info when logged in -->
+                    <div th:if="${isLoggedIn}" class="user-info">
+                        <span class="welcome-text">Welcome, <span th:text="${username}">User</span>!</span>
+                        <a th:href="@{/logout}" class="nav-link logout-btn">🚪 Logout</a>
+                    </div>
+                    
+                    <a th:href="@{/cart}" class="nav-link cart-link">
+                        🛒 Cart (<span id="cart-count">0</span>)
+                    </a>
+                    
+                    <!-- My Orders link - only show for logged-in users -->
+                    <a th:if="${isLoggedIn}" th:href="@{/my-orders}" class="nav-link">
+                        📋 My Orders
+                    </a>
+                    
+                    <!-- Admin link - only show for admins -->
+                    <a th:if="${isAdmin}" th:href="@{/admin}" class="nav-link admin-link">
+                        👨‍💼 Admin Dashboard
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="order-details-container">
+        <a th:href="${backLink}" th:text="${backText}" class="back-link">← Back to My Orders</a>
+
+        <!-- Error message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="'❌ ' + ${errorMessage}">Error message</p>
+        </div>
+
+        <!-- Order content -->
+        <div th:if="${order != null}">
+            <!-- Status Tracker -->
+            <div class="status-tracker">
+                <div class="tracker-title">📦 Order Status</div>
+                <div class="status-steps">
+                    <div class="status-step">
+                        <div th:class="${order.status == 'Pending' ? 'step-circle pending' : (order.status == 'Cancelled' ? 'step-circle' : 'step-circle completed')}">1</div>
+                        <div th:class="${order.status == 'Pending' ? 'step-label pending' : (order.status == 'Cancelled' ? 'step-label' : 'step-label completed')}">Pending</div>
+                    </div>
+                    <div class="status-step">
+                        <div th:class="${order.status == 'Processing' ? 'step-circle active' : (order.status == 'Shipped' or order.status == 'Delivered' ? 'step-circle completed' : 'step-circle')}">2</div>
+                        <div th:class="${order.status == 'Processing' ? 'step-label active' : (order.status == 'Shipped' or order.status == 'Delivered' ? 'step-label completed' : 'step-label')}">Processing</div>
+                    </div>
+                    <div class="status-step">
+                        <div th:class="${order.status == 'Shipped' ? 'step-circle active' : (order.status == 'Delivered' ? 'step-circle completed' : 'step-circle')}">3</div>
+                        <div th:class="${order.status == 'Shipped' ? 'step-label active' : (order.status == 'Delivered' ? 'step-label completed' : 'step-label')}">Shipped</div>
+                    </div>
+                    <div class="status-step">
+                        <div th:class="${order.status == 'Delivered' ? 'step-circle active' : 'step-circle'}">4</div>
+                        <div th:class="${order.status == 'Delivered' ? 'step-label active' : 'step-label'}">Delivered</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <div class="order-header">
+                    <div class="order-title" th:text="'Order #' + ${order.orderId}">Order #123</div>
+                    <div th:class="'badge status-' + ${#strings.toLowerCase(order.status)}" 
+                         th:text="${#strings.toUpperCase(order.status)}">PENDING</div>
+                </div>
+                
+                <div class="order-info-grid">
+                    <div class="info-card">
+                        <div class="info-label">📅 Order Date</div>
+                        <div class="info-value" th:text="${order.orderDate}">Jan 15, 2024 10:30</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">💰 Total Amount</div>
+                        <div class="info-value" th:text="'$' + ${#numbers.formatDecimal(order.totalAmount, 1, 2)}">$25.99</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">📦 Total Items</div>
+                        <div class="info-value" th:text="${order.totalItems}">3</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">📋 Status</div>
+                        <div class="info-value">
+                            <span th:class="'badge status-' + ${#strings.toLowerCase(order.status)}" 
+                                  th:text="${#strings.toUpperCase(order.status)}">PENDING</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="order-items" th:if="${orderDetails != null and orderDetails.size() > 0}">
+                <div class="items-header">📚 Order Items</div>
+                <div>
+                    <div th:each="detail : ${orderDetails}" class="item-row">
+                        <div class="item-image">
+                            <div class="placeholder-image">📖</div>
+                        </div>
+                        <div class="item-details">
+                            <div class="item-title" th:text="${detail.bookName}">Book Title</div>
+                            <div class="item-info">
+                                <span th:text="'Publisher: ' + ${detail.bookPublisher}">Publisher: Sample Publisher</span>
+                                <span th:text="'Book ID: ' + ${detail.bookId}">Book ID: 100001</span>
+                            </div>
+                        </div>
+                        <div class="item-quantity">
+                            <span th:text="'Qty: ' + ${detail.quantity}">Qty: 1</span>
+                        </div>
+                        <div class="item-price">
+                            <div th:text="'$' + ${#numbers.formatDecimal(detail.price, 1, 2)}">$9.99</div>
+                            <div class="item-total" th:text="'Total: $' + ${#numbers.formatDecimal(detail.subtotal, 1, 2)}">Total: $9.99</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-total">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span th:text="'$' + ${#numbers.formatDecimal(order.totalAmount, 1, 2)}">$25.99</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Total:</span>
+                        <span th:text="'$' + ${#numbers.formatDecimal(order.totalAmount, 1, 2)}">$25.99</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No order found -->
+        <div th:if="${order == null}" class="empty-orders">
+            <h3>📭 Order Not Found</h3>
+            <p>The requested order could not be found.</p>
+            <a th:href="@{/my-orders}" class="btn btn-primary">Back to My Orders</a>
+        </div>
+    </main>
+
+    <script src="/js/cartManager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle logout clicks
+            const logoutButtons = document.querySelectorAll('.logout-btn');
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleLogout();
+                });
+            });
+        });
+
+        async function handleLogout() {
+            try {
+                // Notify cart manager about logout
+                if (window.cartManager) {
+                    window.cartManager.onUserLogout();
+                }
+                
+                // Call server logout
+                const response = await fetch('/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Redirect to home page
+                    window.location.href = '/';
+                } else {
+                    // Fallback to GET logout
+                    window.location.href = '/logout';
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                // Fallback to GET logout
+                window.location.href = '/logout';
+            }
+        }
+    </script>
+</body>
+</html>

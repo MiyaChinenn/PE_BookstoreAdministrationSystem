@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Bookstore</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .confirmation-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .confirmation-card {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .success-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        
+        .confirmation-title {
+            color: #28a745;
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .confirmation-message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .order-details {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border-left: 4px solid #28a745;
+        }
+        
+        .order-details h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+        }
+        
+        .action-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #007bff;
+            border: 2px solid #007bff;
+        }
+        
+        .btn-outline:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        .loading {
+            display: block;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .confirmation-container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+            
+            .confirmation-card {
+                padding: 25px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    
+    <main class="confirmation-container">
+        <div class="confirmation-card">
+            <!-- Success Icon -->
+            <div class="success-icon">✅</div>
+            
+            <!-- Confirmation Title -->
+            <h1 class="confirmation-title">Order Confirmed!</h1>
+            
+            <!-- Confirmation Message -->
+            <p class="confirmation-message">
+                Thank you for your order! We've received your purchase and are preparing it for shipment. 
+                You'll receive an email confirmation shortly with your order details and tracking information.
+            </p>
+            
+            <!-- Order Details -->
+            <div class="order-details">
+                <h3>Order Summary</h3>
+                <div id="order-info">
+                    <div class="loading">Loading order details...</div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="/shop" class="btn btn-primary">Continue Shopping</a>
+                <a href="/orders" class="btn btn-success">View My Orders</a>
+                <button onclick="window.print()" class="btn btn-outline">Print Receipt</button>
+            </div>
+        </div>
+    </main>
+    
+    <footer th:replace="fragments/footer :: footer"></footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get order details from sessionStorage (set by checkout process)
+            const lastOrder = JSON.parse(sessionStorage.getItem('lastOrder') || '{}');
+            const orderInfoDiv = document.getElementById('order-info');
+            
+            if (lastOrder.orderId) {
+                // Display order details
+                orderInfoDiv.innerHTML = `
+                    <div class="detail-row">
+                        <span><strong>Order Number:</strong></span>
+                        <span>#${lastOrder.orderId}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span><strong>Order Date:</strong></span>
+                        <span>${new Date().toLocaleDateString()}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span><strong>Total Items:</strong></span>
+                        <span>${lastOrder.totalItems || 0}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span><strong>Total Amount:</strong></span>
+                        <span>$${(lastOrder.totalAmount || 0).toFixed(2)}</span>
+                    </div>
+                `;
+                
+                // Clear the stored order data
+                sessionStorage.removeItem('lastOrder');
+            } else {
+                // Fallback if no order data found
+                orderInfoDiv.innerHTML = `
+                    <div class="detail-row">
+                        <span><strong>Status:</strong></span>
+                        <span>Order details unavailable</span>
+                    </div>
+                    <div class="detail-row">
+                        <span colspan="2" style="text-align: center; color: #666;">
+                            Please check your email for order confirmation details.
+                        </span>
+                    </div>
+                `;
+            }
+            
+            // Clear cart from localStorage since order is complete
+            localStorage.removeItem('cart');
+            
+            // Update cart count in header if function exists
+            if (typeof updateCartCount === 'function') {
+                updateCartCount();
+            }
+        });
+        
+        // Add some celebration effect
+        function createConfetti() {
+            const colors = ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.cssText = `
+                        position: fixed;
+                        top: -10px;
+                        left: ${Math.random() * 100}%;
+                        width: 10px;
+                        height: 10px;
+                        background: ${colors[Math.floor(Math.random() * colors.length)]};
+                        z-index: 1000;
+                        pointer-events: none;
+                        transform: rotate(45deg);
+                    `;
+                    document.body.appendChild(confetti);
+                    
+                    confetti.animate([
+                        { transform: 'translateY(-100vh) rotate(0deg)', opacity: 1 },
+                        { transform: 'translateY(100vh) rotate(360deg)', opacity: 0 }
+                    ], {
+                        duration: 3000,
+                        easing: 'ease-out'
+                    }).onfinish = () => confetti.remove();
+                }, i * 100);
+            }
+        }
+        
+        // Trigger confetti on page load
+        setTimeout(createConfetti, 500);
+    </script>
+</body>
+</html>

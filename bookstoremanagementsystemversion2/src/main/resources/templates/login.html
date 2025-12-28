@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Bookstore</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .form-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+        .form-wrapper {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .message {
+            padding: 0.75rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-wrapper">
+            <h2>Login to Your Account</h2>
+            
+            <!-- Show server-side error messages -->
+            <div th:if="${error}" class="message error" th:text="${error}" style="display:block;"></div>
+            <div th:if="${success}" class="message success" th:text="${success}" style="display:block;"></div>
+            <div id="error-message" class="message error"></div>
+            <div id="success-message" class="message success"></div>
+            
+            <!-- Login form -->
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <p style="text-align: center; margin-top: 1.5rem;">
+                Don't have an account? <a th:href="@{/register}">Register here</a><br>
+                <a th:href="@{/}">← Back to Home</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="/js/cartManager.js"></script>
+    <script>
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        // Hide previous messages
+        document.getElementById('error-message').style.display = 'none';
+        document.getElementById('success-message').style.display = 'none';
+        
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Show success message
+                document.getElementById('success-message').textContent = result.message;
+                document.getElementById('success-message').style.display = 'block';
+                
+                // Set cart sync flag
+                if (result.needCartSync) {
+                    sessionStorage.setItem('needCartSync', 'true');
+                }
+                
+                // Redirect with cart sync parameter after a short delay
+                setTimeout(() => {
+                    const redirectUrl = result.redirectUrl || '/';
+                    window.location.href = redirectUrl + (redirectUrl.includes('?') ? '&' : '?') + 'cartSync=true';
+                }, 1000);
+            } else {
+                document.getElementById('error-message').textContent = result.message;
+                document.getElementById('error-message').style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            document.getElementById('error-message').textContent = 'An error occurred during login.';
+            document.getElementById('error-message').style.display = 'block';
+        }
+    });
+    </script>
+</body>
+</html>

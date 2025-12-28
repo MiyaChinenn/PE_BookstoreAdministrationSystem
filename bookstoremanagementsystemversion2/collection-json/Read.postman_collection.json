@@ -1,0 +1,566 @@
+{
+	"info": {
+		"_postman_id": "c8c6e6f5-5bf0-4fc4-937e-5008068482be",
+		"name": "Read",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45367524",
+		"_collection_link": "https://speeding-moon-891504.postman.co/workspace/Bookstore-Management-System~ef3f8875-87e7-40a5-b06d-33d70abd9b3d/collection/42767802-c8c6e6f5-5bf0-4fc4-937e-5008068482be?action=share&source=collection_link&creator=45367524"
+	},
+	"item": [
+		{
+			"name": "Book",
+			"item": [
+				{
+					"name": "Get",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/books/?id=&type=&name=&publisher=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": ""
+								},
+								{
+									"key": "type",
+									"value": ""
+								},
+								{
+									"key": "name",
+									"value": ""
+								},
+								{
+									"key": "publisher",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/book/?id=&type=&name=&publisher=",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"book",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": ""
+										},
+										{
+											"key": "type",
+											"value": ""
+										},
+										{
+											"key": "name",
+											"value": ""
+										},
+										{
+											"key": "publisher",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 May 2025 07:37:14 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"bookId\": 100000,\n        \"type\": \"Fiction\",\n        \"name\": \"To Kill a Mockingbird\",\n        \"price\": 18.99,\n        \"publisher\": \"J.B. Lippincott & Co.\",\n        \"quantity\": 8\n    },\n    {\n        \"bookId\": 100001,\n        \"type\": \"Fiction\",\n        \"name\": \"1984\",\n        \"price\": 14.99,\n        \"publisher\": \"Secker & Warburg\",\n        \"quantity\": 0\n    },\n    {\n        \"bookId\": 100002,\n        \"type\": \"Fiction\",\n        \"name\": \"Pride and Prejudice\",\n        \"price\": 12.99,\n        \"publisher\": \"T. Egerton\",\n        \"quantity\": 50\n    },\n    {\n        \"bookId\": 100003,\n        \"type\": \"Fiction\",\n        \"name\": \"The Great Gatsby\",\n        \"price\": 10.99,\n        \"publisher\": \"Charles Scribner's Sons\",\n        \"quantity\": 197\n    },\n    {\n        \"bookId\": 100004,\n        \"type\": \"Fiction\",\n        \"name\": \"Moby-Dick\",\n        \"price\": 16.5,\n        \"publisher\": \"Harper & Brothers\",\n        \"quantity\": 11\n    },\n    {\n        \"bookId\": 100005,\n        \"type\": \"Science-Fiction\",\n        \"name\": \"Dune\",\n        \"price\": 15.5,\n        \"publisher\": \"Chilton Books\",\n        \"quantity\": 72\n    },\n    {\n        \"bookId\": 100006,\n        \"type\": \"Science-Fiction\",\n        \"name\": \"Neuromancer\",\n        \"price\": 13.99,\n        \"publisher\": \"Ace\",\n        \"quantity\": 10\n    },\n    {\n        \"bookId\": 100007,\n        \"type\": \"Science-Fiction\",\n        \"name\": \"Fahrenheit 451\",\n        \"price\": 22,\n        \"publisher\": \"ddfasd\",\n        \"quantity\": 12\n    },\n    {\n        \"bookId\": 100008,\n        \"type\": \"Science-Fiction\",\n        \"name\": \"The Left Hand of Darkness\",\n        \"price\": 12.5,\n        \"publisher\": \"Ace\",\n        \"quantity\": 5\n    },\n    {\n        \"bookId\": 100009,\n        \"type\": \"Science-Fiction\",\n        \"name\": \"Ender's Game\",\n        \"price\": 14.99,\n        \"publisher\": \"Tor Books\",\n        \"quantity\": 9\n    },\n    {\n        \"bookId\": 100010,\n        \"type\": \"Fantasy\",\n        \"name\": \"Harry Potter and the Sorcerer's Stone\",\n        \"price\": 20,\n        \"publisher\": \"Bloomsbury\",\n        \"quantity\": 15\n    },\n    {\n        \"bookId\": 100011,\n        \"type\": \"Fantasy\",\n        \"name\": \"The Hobbit\",\n        \"price\": 14.99,\n        \"publisher\": \"George Allen & Unwin\",\n        \"quantity\": 20\n    },\n    {\n        \"bookId\": 100012,\n        \"type\": \"Fantasy\",\n        \"name\": \"The Name of the Wind\",\n        \"price\": 17.99,\n        \"publisher\": \"DAW Books\",\n        \"quantity\": 12\n    },\n    {\n        \"bookId\": 100013,\n        \"type\": \"Fantasy\",\n        \"name\": \"American Gods\",\n        \"price\": 16.5,\n        \"publisher\": \"William Morrow\",\n        \"quantity\": 9\n    },\n    {\n        \"bookId\": 100014,\n        \"type\": \"Fantasy\",\n        \"name\": \"Mistborn: The Final Empire\",\n        \"price\": 15.5,\n        \"publisher\": \"Tor Books\",\n        \"quantity\": 7\n    },\n    {\n        \"bookId\": 100015,\n        \"type\": \"Non-Fiction\",\n        \"name\": \"Sapiens: A Brief History of Humankind\",\n        \"price\": 22.99,\n        \"publisher\": \"Harvill Secker\",\n        \"quantity\": 12\n    },\n    {\n        \"bookId\": 100016,\n        \"type\": \"Non-Fiction\",\n        \"name\": \"Educated\",\n        \"price\": 19.99,\n        \"publisher\": \"Random House\",\n        \"quantity\": 10\n    },\n    {\n        \"bookId\": 100017,\n        \"type\": \"Non-Fiction\",\n        \"name\": \"Becoming\",\n        \"price\": 24.99,\n        \"publisher\": \"Crown\",\n        \"quantity\": 14\n    },\n    {\n        \"bookId\": 100018,\n        \"type\": \"Non-Fiction\",\n        \"name\": \"The Immortal Life of Henrietta Lacks\",\n        \"price\": 16.99,\n        \"publisher\": \"Crown\",\n        \"quantity\": 100\n    },\n    {\n        \"bookId\": 100019,\n        \"type\": \"Fiction\",\n        \"name\": \"Thinking, Fast and Slow\",\n        \"price\": 18.5,\n        \"publisher\": \"Farrar, Straus and Giroux\",\n        \"quantity\": 111\n    },\n    {\n        \"bookId\": 100020,\n        \"type\": \"Biography\",\n        \"name\": \"The Diary of a Young Girl\",\n        \"price\": 10.99,\n        \"publisher\": \"Contact Publishing\",\n        \"quantity\": 5\n    },\n    {\n        \"bookId\": 100021,\n        \"type\": \"Biography\",\n        \"name\": \"Steve Jobs\",\n        \"price\": 25,\n        \"publisher\": \"Simon & Schuster\",\n        \"quantity\": 10\n    },\n    {\n        \"bookId\": 100022,\n        \"type\": \"Biography\",\n        \"name\": \"Long Walk to Freedom\",\n        \"price\": 18.99,\n        \"publisher\": \"Little, Brown and Company\",\n        \"quantity\": 6\n    },\n    {\n        \"bookId\": 100023,\n        \"type\": \"Biography\",\n        \"name\": \"Becoming\",\n        \"price\": 24.99,\n        \"publisher\": \"Crown\",\n        \"quantity\": 8\n    },\n    {\n        \"bookId\": 100024,\n        \"type\": \"Biography\",\n        \"name\": \"The Wright Brothers\",\n        \"price\": 14.99,\n        \"publisher\": \"Simon & Schuster\",\n        \"quantity\": 4\n    },\n    {\n        \"bookId\": 100026,\n        \"type\": \"Manga\",\n        \"name\": \"One Piece\",\n        \"price\": 10.99,\n        \"publisher\": \"Shueisha\",\n        \"quantity\": 1000\n    },\n    {\n        \"bookId\": 100027,\n        \"type\": \"Manga\",\n        \"name\": \"Attack on Titan\",\n        \"price\": 11.5,\n        \"publisher\": \"Kodansha\",\n        \"quantity\": 18\n    },\n    {\n        \"bookId\": 100028,\n        \"type\": \"Manga\",\n        \"name\": \"My Hero Academia\",\n        \"price\": 8.99,\n        \"publisher\": \"Shueisha\",\n        \"quantity\": 222\n    },\n    {\n        \"bookId\": 100038,\n        \"type\": \"test update\",\n        \"name\": \"Name of the book I want to update\",\n        \"price\": 50000,\n        \"publisher\": \"Hehe\",\n        \"quantity\": 500\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "http://localhost:8080/api/books/",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/books/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"books",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/orders?username=nghia123",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "nghia123"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/order/?username=nghia123",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"order",
+										""
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "nghia123"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 May 2025 07:37:27 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"orderId\": 200000,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-09\"\n    },\n    {\n        \"orderId\": 200001,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-10\"\n    },\n    {\n        \"orderId\": 200004,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200005,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200006,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200007,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200008,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200009,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200010,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200011,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200012,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200013,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200014,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200015,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-11\"\n    },\n    {\n        \"orderId\": 200017,\n        \"username\": \"nghia123\",\n        \"orderDate\": \"2024-11-14\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/orders/200000",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"200000"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get by id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/order/200000",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"order",
+										"200000"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 May 2025 07:37:44 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"orderId\": 200000,\n    \"username\": \"nghia123\",\n    \"orderDate\": \"2024-11-09\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Order detail",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/order-details?orderId=200000",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"order-details"
+							],
+							"query": [
+								{
+									"key": "orderId",
+									"value": "200000"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/orderdetail/?orderId=200000",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"orderdetail",
+										""
+									],
+									"query": [
+										{
+											"key": "orderId",
+											"value": "200000"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 May 2025 07:37:55 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"orderId\": 200000,\n        \"bookId\": 100001,\n        \"quantity\": 200,\n        \"price\": 1900.99\n    },\n    {\n        \"orderId\": 200000,\n        \"bookId\": 100003,\n        \"quantity\": 5,\n        \"price\": 10.99\n    },\n    {\n        \"orderId\": 200000,\n        \"bookId\": 100004,\n        \"quantity\": 5,\n        \"price\": 16.5\n    },\n    {\n        \"orderId\": 200000,\n        \"bookId\": 100005,\n        \"quantity\": 3,\n        \"price\": 15.5\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Shopping cart",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/cart",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"adminpass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"\",\n    \"password\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/user/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 May 2025 06:17:41 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"adminpass\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/user/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 May 2025 06:18:22 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"admin\",\n    \"firstName\": \"Harry\",\n    \"lastName\": \"Vu\",\n    \"phoneNumber\": \"1234567899\",\n    \"password\": \"*********\"\n}"
+						}
+					]
+				},
+				{
+					"name": "http://localhost:8080/user/login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"adminpass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

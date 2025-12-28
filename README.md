@@ -1,4 +1,4 @@
-# Bookstore Management System
+# Bookstore Administration System
 
 ## Setup Guidelines
 

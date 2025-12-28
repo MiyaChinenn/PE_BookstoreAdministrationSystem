@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore Management System</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body data-logged-in="[[${isLoggedIn}]]" data-username="[[${username}]]">
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <h1 class="nav-logo">📚 BookStore</h1>
+                <div class="nav-menu">
+                    <a th:href="@{/}" class="nav-link">Home</a>
+                    
+                    <!-- Show Login/Register when not logged in -->
+                    <div th:if="${!isLoggedIn}" class="auth-dropdown">
+                        <button class="nav-link dropdown-btn">Login/Register ▼</button>
+                        <div class="dropdown-content">
+                            <a th:href="@{/login}" class="dropdown-link">🔑 Login</a>
+                            <a th:href="@{/register}" class="dropdown-link">📝 Register</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Show user info when logged in -->
+                    <div th:if="${isLoggedIn}" class="user-info">
+                        <span class="welcome-text">Welcome, <span th:text="${username}">User</span>!</span>
+                        <a th:href="@{/logout}" class="nav-link logout-btn">🚪 Logout</a>
+                    </div>
+                    
+                    <a th:href="@{/cart}" class="nav-link cart-link">
+                        🛒 Cart (<span id="cart-count">0</span>)
+                    </a>
+                    
+                    <!-- My Orders link - only show for logged-in users -->
+                    <a th:if="${isLoggedIn}" th:href="@{/my-orders}" class="nav-link">
+                        📋 My Orders
+                    </a>
+                    
+                    <!-- Admin link - only show for admins -->
+                    <a th:if="${isAdmin}" th:href="@{/admin}" class="nav-link admin-link">
+                        👨‍💼 Admin Dashboard
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Welcome to Our Bookstore</h1>
+            <p>Discover amazing books at great prices!</p>
+            <p th:if="${isLoggedIn and isAdmin}" class="admin-welcome">
+                🔑 <strong>Admin Access:</strong> You can manage the bookstore from the dashboard.
+            </p>
+        </section>
+
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search for books by title, publisher, category...">
+                <select id="type-filter">
+                    <option value="">All Categories</option>
+                    <option value="Fiction">Fiction</option>
+                    <option value="Science-Fiction">Science-Fiction</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Non-Fiction">Non-Fiction</option>
+                    <option value="Biography">Biography</option>
+                    <option value="Manga">Manga</option>
+                </select>
+                <button id="search-btn" class="btn-primary">Search</button>
+            </div>
+        </section>
+
+        <section class="books-section">
+            <h3>Featured Books</h3>
+            <div id="loading-books" class="loading" style="display: none;">Loading books...</div>
+            <div id="books-grid" class="books-grid">
+                <!-- Books will be loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Bookstore Management System</p>
+    </footer>
+
+    <!-- Pass server data to JavaScript -->
+    <script th:inline="javascript">
+        window.userSession = {
+            isLoggedIn: /*[[${isLoggedIn}]]*/ false,
+            username: /*[[${username}]]*/ null,
+            role: /*[[${role}]]*/ null,
+            isAdmin: /*[[${isAdmin}]]*/ false
+        };
+    </script>
+    
+    <script th:src="@{/js/auth.js}"></script>
+    <script th:src="@{/js/books.js}"></script>
+    <script src="/js/cartManager.js"></script>
+    <script>
+    // Override cart display update for index page
+    window.cartManager.updateCartDisplay = function() {
+        console.log('Index page - cart updated');
+        this.updateCartCount();
+    };
+
+    // Update add to cart buttons to use new cart manager
+    function addToCart(bookId, name, price, author = '', image = '', category = '') {
+        window.cartManager.addToCart(bookId, name, price, 1, author, image, category);
+    }
+    
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+        // Force cart count update immediately on page load
+        setTimeout(function() {
+            if (window.cartManager) {
+                console.log('Home page: Force updating cart count on page load');
+                window.cartManager.updateCartCount();
+            }
+        }, 100);
+        
+        // Listen for cart loaded event to update count
+        window.addEventListener('cartLoaded', function(event) {
+            console.log('Cart loaded event received on home page:', event.detail.cart);
+            if (window.cartManager) {
+                window.cartManager.updateCartCount();
+            }
+        });
+        
+        // Handle logout clicks
+        const logoutButtons = document.querySelectorAll('.logout-btn');
+        logoutButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                handleLogout();
+            });
+        });
+    });
+    
+    async function handleLogout() {
+        try {
+            // Notify cart manager about logout
+            if (window.cartManager) {
+                window.cartManager.onUserLogout();
+            }
+            
+            // Call server logout
+            const response = await fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                // Redirect to home page
+                window.location.href = '/';
+            } else {
+                // Fallback to GET logout
+                window.location.href = '/logout';
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+            // Fallback to GET logout
+            window.location.href = '/logout';
+        }
+    }
+    </script>
+</body>
+</html>

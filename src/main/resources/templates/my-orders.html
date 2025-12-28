@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Bookstore</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .orders-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .orders-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .orders-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .order-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            transition: transform 0.2s ease;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .order-id {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .order-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-processing {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-shipped {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-delivered {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+        
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-size: 0.9em;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-orders h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        /* Order status styles - matching admin dashboard */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-processing {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .status-shipped {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-delivered {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body data-logged-in="[[${isLoggedIn}]]" data-username="[[${username}]]">
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <h1 class="nav-logo">📚 BookStore</h1>
+                <div class="nav-menu">
+                    <a th:href="@{/}" class="nav-link">Home</a>
+                    
+                    <!-- Show Login/Register when not logged in -->
+                    <div th:if="${!isLoggedIn}" class="auth-dropdown">
+                        <button class="nav-link dropdown-btn">Login/Register ▼</button>
+                        <div class="dropdown-content">
+                            <a th:href="@{/login}" class="dropdown-link">🔑 Login</a>
+                            <a th:href="@{/register}" class="dropdown-link">📝 Register</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Show user info when logged in -->
+                    <div th:if="${isLoggedIn}" class="user-info">
+                        <span class="welcome-text">Welcome, <span th:text="${username}">User</span>!</span>
+                        <a th:href="@{/logout}" class="nav-link logout-btn">🚪 Logout</a>
+                    </div>
+                    
+                    <a th:href="@{/cart}" class="nav-link cart-link">
+                        🛒 Cart (<span id="cart-count">0</span>)
+                    </a>
+                    
+                    <!-- My Orders link - only show for logged-in users -->
+                    <a th:if="${isLoggedIn}" th:href="@{/my-orders}" class="nav-link">
+                        📋 My Orders
+                    </a>
+                    
+                    <!-- Admin link - only show for admins -->
+                    <a th:if="${isAdmin}" th:href="@{/admin}" class="nav-link admin-link">
+                        👨‍💼 Admin Dashboard
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="orders-container">
+        <div class="orders-header">
+            <h1>📋 My Orders</h1>
+            <p>Track and manage your order history</p>
+        </div>
+
+        <!-- Error message from URL params -->
+        <div th:if="${param.error}" class="error-message">
+            <p th:switch="${param.error[0]}">
+                <span th:case="unauthorized">❌ You are not authorized to view this order.</span>
+                <span th:case="notfound">❌ Order not found.</span>
+                <span th:case="database">❌ Database error occurred. Please try again.</span>
+                <span th:case="*">❌ An error occurred. Please try again.</span>
+            </p>
+        </div>
+
+        <!-- Server-side error message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="'❌ ' + ${errorMessage}">Error message</p>
+        </div>
+
+        <!-- Orders content -->
+        <div th:if="${orders != null and not #lists.isEmpty(orders)}" class="orders-list">
+            <div th:each="order : ${orders}" class="order-card">
+                <div class="order-header">
+                    <div class="order-id" th:text="'Order #' + ${order.orderId}">Order #123</div>
+                    <div th:class="'badge status-' + ${#strings.toLowerCase(order.status)}" th:text="${#strings.toUpperCase(order.status)}">PENDING</div>
+                </div>
+                <div class="order-info">
+                    <div class="info-item">
+                        <div class="info-label">Order Date</div>
+                        <div class="info-value" th:text="${order.orderDate}">Jan 15, 2024 10:30</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Total Amount</div>
+                        <div class="info-value" th:text="'$' + ${#numbers.formatDecimal(order.totalAmount, 1, 2)}">$25.99</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Total Items</div>
+                        <div class="info-value" th:text="${order.totalItems}">3</div>
+                    </div>
+                </div>
+                <div class="order-actions">
+                    <a th:href="@{/order-details/{id}(id=${order.orderId})}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty orders message -->
+        <div th:if="${orders == null or #lists.isEmpty(orders)}" class="empty-orders">
+            <h3>📭 No Orders Yet</h3>
+            <p>You haven't placed any orders yet.</p>
+            <a th:href="@{/}" class="btn btn-primary">Continue Shopping</a>
+        </div>
+    </main>
+
+    <script src="/js/cartManager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle logout clicks
+            const logoutButtons = document.querySelectorAll('.logout-btn');
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleLogout();
+                });
+            });
+        });
+
+        async function handleLogout() {
+            try {
+                // Notify cart manager about logout
+                if (window.cartManager) {
+                    window.cartManager.onUserLogout();
+                }
+                
+                // Call server logout
+                const response = await fetch('/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Redirect to home page
+                    window.location.href = '/';
+                } else {
+                    // Fallback to GET logout
+                    window.location.href = '/logout';
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                // Fallback to GET logout
+                window.location.href = '/logout';
+            }
+        }
+    </script>
+</body>
+</html>

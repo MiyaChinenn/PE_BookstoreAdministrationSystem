@@ -1,5 +1,10 @@
 # Bookstore Administration System
 
+- Built a Spring Boot bookstore e-commerce app with Thymeleaf views, REST APIs, and session auth for customers/admins.
+- Layered MVC + DAO/JDBC (plus a JPA repo) on MySQL for books, users, carts, orders, and admin inventory.
+- Added login/session handling, guest-to-user cart sync, checkout with orders/details, stock updates, and JSON endpoints for catalog, cart, and order history.
+- Stack: Java 21, Spring Boot 3, Thymeleaf, JDBC/JPA, Maven, Tomcat (WAR), MySQL.
+
 ## Setup Guidelines
 
 ### a) Tested Hardware Configurations
